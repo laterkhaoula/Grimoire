@@ -17,6 +17,18 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+
+    /**
+     * Relation Many To Many avec Project
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class)
+                    ->withPivot('role')
+                    ->withTimestamps();
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *
