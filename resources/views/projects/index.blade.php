@@ -8,13 +8,14 @@
             📚 Liste des projets
         </h1>
 
-        <a href="{{ route('projects.create') }}"
-           class="bg-indigo-600 text-white px-5 py-2 rounded-lg">
-            + Nouveau projet
-        </a>
+        @can('create', App\Models\Project::class)
+            <a href="{{ route('projects.create') }}"
+               class="bg-indigo-600 text-white px-5 py-2 rounded-lg">
+                + Nouveau projet
+            </a>
+        @endcan
 
     </div>
-
 
     @if(session('success'))
 
@@ -23,7 +24,6 @@
         </div>
 
     @endif
-
 
     <table class="w-full bg-white rounded shadow">
 
@@ -52,59 +52,55 @@
             <tr class="border-b">
 
                 <td class="p-3">
-
                     {{ $project->title }}
-
                 </td>
 
                 <td>
-
                     {{ $project->description }}
-
                 </td>
 
                 <td>
-
                     {{ $project->status }}
-
                 </td>
 
                 <td>
-
                     {{ $project->avancement }} %
-
                 </td>
 
                 <td class="space-x-2">
 
                     <a
-                        href="{{ route('projects.show',$project) }}"
+                        href="{{ route('projects.show', $project) }}"
                         class="text-blue-600">
                         Voir
                     </a>
 
-                    <a
-                        href="{{ route('projects.edit',$project) }}"
-                        class="text-green-600">
-                        Modifier
-                    </a>
+                    @can('update', $project)
+                        <a
+                            href="{{ route('projects.edit', $project) }}"
+                            class="text-green-600">
+                            Modifier
+                        </a>
+                    @endcan
 
-                    <form
-                        action="{{ route('projects.destroy',$project) }}"
-                        method="POST"
-                        class="inline">
+                    @can('delete', $project)
+                        <form
+                            action="{{ route('projects.destroy', $project) }}"
+                            method="POST"
+                            class="inline">
 
-                        @csrf
-                        @method('DELETE')
+                            @csrf
+                            @method('DELETE')
 
-                        <button
-                            class="text-red-600">
+                            <button
+                                class="text-red-600">
 
-                            Archiver
+                                Archiver
 
-                        </button>
+                            </button>
 
-                    </form>
+                        </form>
+                    @endcan
 
                 </td>
 
