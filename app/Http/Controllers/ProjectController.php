@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Events\ProjectClosed;
+use App\Events\MemberAdded;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -128,27 +129,33 @@ class ProjectController extends Controller
     // ==================================================
 
     /**
-     * US3 : Ajouter un membre au projet.
-     */
-    public function addMember(Request $request, Project $project)
-    {
-        $this->authorize('addMember', $project);
 
-        $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
-            'role' => ['required', 'in:chercheur,etudiant_assistant'],
-        ]);
+ * US3 : Ajouter un membre au projet.
+ */
+public function addMember(Request $request, Project $project)
+{
+    $this->authorize('addMember', $project);
 
-        $project->users()->syncWithoutDetaching([
-            $request->user_id => [
-                'role' => $request->role,
-            ],
-        ]);
+    $request->validate([
+        'user_id' => ['required', 'exists:users,id'],
+        'role' => ['required', 'in:chercheur,etudiant_assistant'],
+    ]);
 
-        return redirect()
-            ->route('projects.show', $project)
-            ->with('success', 'Membre ajouté avec succès.');
-    }
+    $user = User::findOrFail($request->user_id);
+
+    $project->users()->syncWithoutDetaching([
+        $user->id => [
+            'role' => $request->role,
+        ],
+    ]);
+
+    // Déclenche l'événement
+    event(new MemberAdded($project, $user));
+
+    return redirect()
+        ->route('projects.show', $project)
+        ->with('success', 'Membre ajouté avec succès.');
+}
 
     /**
      * US4 : Retirer un membre du projet.
@@ -183,4 +190,18 @@ class ProjectController extends Controller
             ->route('projects.show', $project)
             ->with('success', 'Avancement mis à jour avec succès.');
     }
+    public function close(Project $project)
+{
+    $this->authorize('update', $project);
+
+    $project->update([
+        'status' => 'cloture'
+    ]);
+
+    event(new ProjectClosed($project));
+
+    return redirect()
+        ->route('projects.show', $project)
+        ->with('success', 'Projet clôturé avec succès.');
+}
 }

@@ -152,12 +152,10 @@
                     </h2>
 
 
-                    <button
-                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-
-                        + Nouveau projet
-
-                    </button>
+                   <a href="{{ route('projects.create') }}"
+   class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 inline-block">
+    + Nouveau projet
+</a>
 
 
                 </div>

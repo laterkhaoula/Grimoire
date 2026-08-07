@@ -59,13 +59,10 @@
             </a>
 
 
-
-            <a href="#"
-               class="text-gray-700 hover:text-indigo-600 font-medium">
-
-                Membres
-
-            </a>
+<a href="{{ route('members.index') }}"
+   class="text-gray-700 hover:text-indigo-600 font-medium">
+    Membres
+</a>
 
 
 
