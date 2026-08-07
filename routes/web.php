@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,9 +12,14 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::get('/dashboard', function () {
+    $membersCount = User::count();
+
+    return view('dashboard', compact('membersCount'));
+})->name('dashboard');
+
+Route::get('/members', [MemberController::class, 'index'])
+    ->name('members.index');
 
     // ==========================
     // Projets archivés (قبل resource)
@@ -23,9 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])
         ->name('projects.restore');
-    Route::get('/members', function () {
-    return view('members.index');
-})->name('members.index');
+
     // ==========================
     // Clôturer un projet
     // ==========================

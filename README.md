@@ -1,58 +1,237 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 Grimoire
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
 
-## About Laravel
+**Grimoire** est une application web développée avec **Laravel** permettant de gérer les projets de recherche d'un laboratoire universitaire.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Le laboratoire gérait auparavant ses projets à l'aide de tableurs et d'échanges d'e-mails, ce qui rendait difficile le suivi des projets, la gestion des membres et la répartition des responsabilités.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+L'objectif de Grimoire est de centraliser la gestion des projets, des membres et des rôles tout en automatisant certaines tâches grâce au traitement asynchrone de Laravel.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+# 🎯 Objectifs
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Centraliser les projets de recherche.
+* Gérer les membres d'un projet.
+* Attribuer des rôles spécifiques aux utilisateurs.
+* Sécuriser les accès selon les autorisations.
+* Automatiser les notifications et les rapports de clôture.
+* Archiver les projets terminés.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+# 🚀 Fonctionnalités
 
-## Agentic Development
+## Authentification
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+* Inscription
+* Connexion
+* Déconnexion
+* Protection des routes avec le middleware `auth`
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
+## Gestion des projets
+
+* Création d'un projet
+* Modification d'un projet
+* Consultation des projets
+* Mise à jour de l'avancement
+* Clôture d'un projet
+* Archivage (Soft Delete)
+* Restauration d'un projet archivé
+
+---
+
+## Gestion des membres
+
+* Ajouter un membre à un projet
+* Supprimer un membre d'un projet
+* Attribution d'un rôle :
+
+  * Responsable
+  * Chercheur
+  * Étudiant assistant
+
+---
+
+## Gestion des rôles
+
+### Responsable
+
+* Créer un projet
+* Modifier un projet
+* Ajouter un membre
+* Supprimer un membre
+* Clôturer un projet
+* Archiver un projet
+
+### Chercheur
+
+* Consulter les projets
+* Mettre à jour l'avancement
+
+### Étudiant assistant
+
+* Consultation uniquement
+
+---
+
+## Notifications
+
+Lorsqu'un membre est ajouté à un projet :
+
+* création d'un Event
+* exécution d'un Listener
+* notification envoyée de manière asynchrone grâce aux Queues Laravel
+
+---
+
+## Clôture d'un projet
+
+Lorsqu'un projet est clôturé :
+
+* génération d'un rapport de synthèse
+* traitement asynchrone avec Queue
+
+---
+
+# 🛠 Technologies utilisées
+
+* Laravel 13
+* PHP 8.3
+* MySQL
+* Blade
+* Tailwind CSS
+* Laravel Breeze
+* Laravel Policies
+* Laravel Events
+* Laravel Listeners
+* Laravel Queues
+* Soft Deletes
+* Eloquent ORM
+
+---
+
+# 📁 Arborescence principale
+
+```text
+app/
+ ├── Events/
+ ├── Http/
+ │    ├── Controllers/
+ │    ├── Requests/
+ │    └── Middleware/
+ ├── Listeners/
+ ├── Models/
+ ├── Notifications/
+ └── Policies/
+
+database/
+ ├── migrations/
+ └── seeders/
+
+resources/
+ └── views/
+      ├── dashboard.blade.php
+      ├── projects/
+      ├── members/
+      └── layouts/
+
+routes/
+ └── web.php
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+# ⚙ Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Cloner le projet :
 
-## Code of Conduct
+```bash
+git clone <url-du-repository>
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Entrer dans le projet :
 
-## Security Vulnerabilities
+```bash
+cd Grimoire
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Installer les dépendances :
 
-## License
+```bash
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Installer les dépendances front-end :
+
+```bash
+npm install
+```
+
+Créer le fichier d'environnement :
+
+```bash
+cp .env.example .env
+```
+
+Générer la clé d'application :
+
+```bash
+php artisan key:generate
+```
+
+Configurer la base de données dans le fichier `.env`.
+
+Exécuter les migrations :
+
+```bash
+php artisan migrate
+```
+
+Lancer le serveur :
+
+```bash
+php artisan serve
+```
+
+Compiler les assets :
+
+```bash
+npm run dev
+```
+
+Lancer le worker des files d'attente :
+
+```bash
+php artisan queue:work
+```
+
+---
+
+# 🔒 Sécurité
+
+Le projet utilise :
+
+* Middleware `auth`
+* Laravel Breeze
+* Policies
+* Autorisations par rôle
+* Protection CSRF
+* Validation avec Form Requests
+
+---
+
+# ⚡ Optimisations
+
+* Utilisation de `with()` pour éviter les requêtes N+1.
+* Traitement asynchrone avec les Queues Laravel.
+* Archivage avec Soft Deletes.
+
+---
+
+# 📜 Licence
+
+Ce projet est réalisé dans un but pédagogique dans le cadre d'un projet académique.

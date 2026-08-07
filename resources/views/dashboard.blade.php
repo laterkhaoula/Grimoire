@@ -73,7 +73,7 @@
 
 
                         <h2 class="text-4xl font-bold text-green-600 mt-3">
-                            12
+                            {{ $membersCount }}
                         </h2>
 
                     </div>
